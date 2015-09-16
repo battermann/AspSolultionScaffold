@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -8,11 +7,11 @@ namespace InternalMessageBus
 {
     public class MessageBus : IMessageBus
     {
-        private readonly ISubject<object> _messages;
+        private readonly ISubject<IMessage> _messages;
 
         public MessageBus()
         {
-            _messages = new Subject<object>();
+            _messages = new Subject<IMessage>();
         }
 
         public void Send<T>(T command) where T : ICommand
@@ -27,19 +26,12 @@ namespace InternalMessageBus
 
         public IDisposable RegisterCommandHandler<TMessage>(Func<TMessage, List<IEvent>> handle) where TMessage : ICommand
         {
-            if (!typeof(TMessage).GetInterfaces().Contains(typeof(ICommand)))
-            {
-                throw new Exception("cannot register handler.");
-            }
-
             return _messages.OfType<TMessage>()
                 .Subscribe(msg => handle(msg).ForEach(Publish));
         }
 
         public IDisposable RegisterEventHandler<TMessage>(Action<TMessage> action) where TMessage : IEvent
         {
-            if (!typeof(TMessage).GetInterfaces().Contains(typeof(IEvent))) throw new Exception("cannot register handler.");
-
             return _messages.OfType<TMessage>().Subscribe(action);
         }
     }
