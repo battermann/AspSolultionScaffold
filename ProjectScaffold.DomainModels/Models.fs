@@ -34,7 +34,7 @@ type IItemReadAccess =
     /// Return all Items
     abstract GetAll : unit -> Result<Item seq, DomainMessage>
 
-    /// Return the customer with the given AkquiseId, or AkquiseNotFound error if not found
+    /// Return the customer with the given ItemId, or ItemNotFound error if not found
     abstract GetById : ItemId -> Result<Item, DomainMessage>
 
 type IItemWriteAccess =
