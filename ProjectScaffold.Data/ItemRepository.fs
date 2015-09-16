@@ -10,64 +10,66 @@ module AccessLayer =
     open Chessie.ErrorHandling
 
     type dbSchema = SqlDataConnection<"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;">
-    let db = dbSchema.GetDataContext()
+    let private db = dbSchema.GetDataContext()
 
     // Enable the logging of database activity to the console.
     db.DataContext.Log <- System.Console.Out
 
-    let fromItemDto (dto: dbSchema.ServiceTypes.Item): Item =
+    let private descriptionFrom =
+        function
+        | Some v -> v
+        | _      -> null // is null really a good idea? why not empty?
+
+    let private fromItemDto (dto: dbSchema.ServiceTypes.Item): Item =
         { id = ItemId dto.Id; name = dto.Name; description = if dto.Description <> null then Some dto.Description else None }
+
+    let private toItemDto (ItemId id, description, name) =
+        dbSchema.ServiceTypes.Item(Id = id, Description = descriptionFrom description, Name = name)
+
+    let private tryFindItemDto (ItemId itemId) =
+        db.Item
+        |> Seq.tryFind (fun dto -> dto.Id = itemId) 
+
+    let private tryFindItem =
+        tryFindItemDto >> Option.map fromItemDto
 
     type ItemRepository() =
 
         interface IItemReadAccess with
             
-            member this.GetAll() =
+            member __.GetAll() =
                 try
                     db.Item |> Seq.map fromItemDto |> ok
                 with
                 | ex -> Bad [SqlException ex.Message]
 
-            member this.GetById(itemId) =
+            member __.GetById(itemId) =
                 try
-                    let (ItemId id) = itemId
-                    let item = db.Item |> Seq.tryFind (fun dto -> dto.Id = id) |> Option.map fromItemDto
-                    match item with
+                    match tryFindItem itemId with
                     | Some v -> ok v
-                    | _ -> fail ItemNotFound
+                    | _      -> fail ItemNotFound
                 with
                 | ex -> fail (SqlException ex.Message)
 
         interface IItemWriteAccess with
 
-            member this.Update(e) =
+            member __.Update(e) =
                 try 
                     match e with
                     | ItemCreated msg -> 
-                        let (ItemId id) = msg.id
-                        let description: string = 
-                            match msg.description with
-                            | Some v -> v
-                            | _ -> null
-                        let fromDb = db.Item |> Seq.tryFind (fun dto -> dto.Id = id) |> Option.map fromItemDto
-                        match fromDb with
+                        match tryFindItem msg.id with
                         | None -> 
-                            let itemDto = new dbSchema.ServiceTypes.Item(Id = id, Description = description, Name = msg.name)
-                            db.Item.InsertOnSubmit(itemDto) |> ignore
+                            toItemDto (msg.id, msg.description, msg.name)
+                            |> db.Item.InsertOnSubmit
+                            |> ignore
                             db.DataContext.SubmitChanges()
                             ok()
                         | _ -> fail (DbUpdateError "item already exists")
                     | ItemUpdated msg -> 
-                        let (ItemId id) = msg.id
-                        let description: string = 
-                            match msg.description with
-                            | Some v -> v
-                            | _ -> null
-                        let fromDb = db.Item |> Seq.tryFind (fun dto -> dto.Id = id)
-                        match fromDb with
+                        match tryFindItemDto msg.id with
                         | Some dto -> 
-                            dto.Name <- msg.name
-                            dto.Description <-description
+                            dto.Name        <- msg.name
+                            dto.Description <- descriptionFrom msg.description
                             db.DataContext.SubmitChanges()
                             ok()
                         | _ -> fail (ItemNotFound)
