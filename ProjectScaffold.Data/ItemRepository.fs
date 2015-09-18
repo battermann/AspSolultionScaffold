@@ -9,12 +9,14 @@ module AccessLayer =
     open ProjectScaffold.DomainModels
     open Chessie.ErrorHandling
 
-    type dbSchema = SqlDataConnection<"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;">
+    [<Literal>]
+    let connectionString = "Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;"
+    type dbSchema = SqlDataConnection<connectionString>
 
-    type ItemRepository() =
+    type ItemRepository(connectionString:string) =
 
         let db = 
-            let db = dbSchema.GetDataContext()
+            let db = dbSchema.GetDataContext(connectionString)
             // Enable the logging of database activity to the console.
             db.DataContext.Log <- System.Console.Out
             db

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
@@ -24,6 +25,9 @@ namespace WebProjectScaffold.Web
 
         private static void ConfigureIoc()
         {
+            var settings = ConfigurationManager.ConnectionStrings;
+            var connectionString = settings["DbConnection"].ConnectionString;
+
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
@@ -31,6 +35,7 @@ namespace WebProjectScaffold.Web
             builder.RegisterType<AccessLayer.ItemRepository>()
                 .As<IItemReadAccess>()
                 .As<IItemWriteAccess>()
+                .WithParameter("connectionString", connectionString)
                 .InstancePerRequest();
 
             // event handlers

@@ -21,7 +21,7 @@ namespace ProjectScaffold.Domain.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            var repository = new AccessLayer.ItemRepository();
+            var repository = new AccessLayer.ItemRepository(@"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;");
             _ra = repository;
             IItemWriteAccess wa = repository;
             var commandHandlers = new ItemCommandHandlers();
