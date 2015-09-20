@@ -13,19 +13,19 @@ namespace WebProjectScaffold.Web.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly IItemReadAccess _readAccess;
+        private readonly IItemReadAccess _repository;
         private readonly ICommandSender _commandSender;
 
-        public ItemsController(IItemReadAccess readAccess, ICommandSenderFactory factory)
+        public ItemsController(IItemReadAccess repository, ICommandSenderFactory factory)
         {
-            _readAccess = readAccess;
+            _repository = repository;
             _commandSender = factory.CommandSender;
         }
 
         // GET: /Items/ 
         public ActionResult Index()
         {
-            var result = _readAccess.GetAll();
+            var result = _repository.GetAll();
 
             return result.ViewOrBadRequest(items => View(items.Select(x => new ItemVm() { Id = x.id.Item, Name = x.name, Description = x.description.GetOrElse((string)null) })));
         }
@@ -34,10 +34,9 @@ namespace WebProjectScaffold.Web.Controllers
         public ActionResult Edit(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var result = _readAccess.GetById(ItemId.NewItemId(id));
+
+            var result = _repository.GetById(AggregateId.NewAggregateId(id));
 
             return result.ViewOrNotFound(item => View(new ItemVm() { Id = item.id.Item, Name = item.name, Description = item.description.GetOrElse((string)null) }));
         }
@@ -53,7 +52,7 @@ namespace WebProjectScaffold.Web.Controllers
             {
                 var cmd = new UpdateItem(
                     timestamp: DateTime.Now,
-                    id: ItemId.NewItemId(vm.Id),
+                    id: AggregateId.NewAggregateId(vm.Id),
                     name: vm.Name,
                     description: vm.Description.Some());
 
@@ -78,7 +77,7 @@ namespace WebProjectScaffold.Web.Controllers
             {
                 var cmd = new CreateItem(
                     timestamp: DateTime.Now,
-                    id: ItemId.NewItemId(vm.Id),
+                    id: AggregateId.NewAggregateId(vm.Id),
                     name: vm.Name,
                     description: vm.Description.Some());
 
@@ -105,7 +104,7 @@ namespace WebProjectScaffold.Web.Controllers
         {
             return result.Either(
                 (v, _) => f(v),
-                errs => (ActionResult) new HttpStatusCodeResult(code, msg));
+                errs => (ActionResult)new HttpStatusCodeResult(code, msg));
         }
     }
 }

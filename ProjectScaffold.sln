@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectScaffold.Web", "ProjectScaffold.Web\ProjectScaffold.Web.csproj", "{1564FD98-3BB8-4952-9834-39340BBAA119}"
 EndProject
@@ -22,6 +22,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{3EF4205C-CB4C-43C0-B4ED-D3F9A1E20B61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{B28AB031-99A5-4095-AE88-C28931D27F62}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProjectScaffold.EventStore", "ProjectScaffold.EventStore\ProjectScaffold.EventStore.fsproj", "{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventStore", "EventStore", "{C6FF3AF1-16E4-4B79-8FCD-FCFF72B3ED7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlDataAccess", "SqlDataAccess", "{F1E116A8-9F92-4E1F-BE13-9DF9B39F1660}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ProjectScaffold.EventStore.Database", "ProjectScaffold.EventStore.Database\ProjectScaffold.EventStore.Database.sqlproj", "{F4B44599-4296-4E61-8EDB-2A6AF65FB621}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,12 +71,26 @@ Global
 		{9EBEEF3C-C6FC-41BE-B7F6-87E80E62240C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EBEEF3C-C6FC-41BE-B7F6-87E80E62240C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EBEEF3C-C6FC-41BE-B7F6-87E80E62240C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{5FE73609-BB8E-4A3E-8E8C-EF9653926F3A} = {F1E116A8-9F92-4E1F-BE13-9DF9B39F1660}
+		{8A4FE877-E8D2-4F6C-A237-6B88FFE03399} = {F1E116A8-9F92-4E1F-BE13-9DF9B39F1660}
 		{0DE63751-BD18-45C2-AB37-1EDB7107F376} = {B28AB031-99A5-4095-AE88-C28931D27F62}
 		{9EBEEF3C-C6FC-41BE-B7F6-87E80E62240C} = {3EF4205C-CB4C-43C0-B4ED-D3F9A1E20B61}
+		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A} = {C6FF3AF1-16E4-4B79-8FCD-FCFF72B3ED7B}
+		{F4B44599-4296-4E61-8EDB-2A6AF65FB621} = {C6FF3AF1-16E4-4B79-8FCD-FCFF72B3ED7B}
 	EndGlobalSection
 EndGlobal

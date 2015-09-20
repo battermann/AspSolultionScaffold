@@ -27,15 +27,20 @@ namespace WebProjectScaffold.Web
         {
             var settings = ConfigurationManager.ConnectionStrings;
             var connectionString = settings["DbConnection"].ConnectionString;
+            var eventStoreConnectionString = settings["SqlEventStore"].ConnectionString;
 
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             // dal
-            builder.RegisterType<AccessLayer.ItemRepository>()
+            builder.RegisterType<EventStore.ItemStore>()
+                .As<IItemsEventStore>()
+                .WithParameter("connectionString", eventStoreConnectionString)
+                .InstancePerRequest();
+
+            builder.RegisterType<Repository.ItemRepository>()
                 .As<IItemReadAccess>()
                 .As<IItemWriteAccess>()
-                .WithParameter("connectionString", connectionString)
                 .InstancePerRequest();
 
             // event handlers

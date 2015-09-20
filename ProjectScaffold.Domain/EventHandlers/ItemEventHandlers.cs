@@ -5,25 +5,29 @@ namespace ProjectScaffold.Domain.EventHandlers
 {
     public class ItemEventHandlers
     {
-        private readonly IItemWriteAccess _repository;
+        private readonly IItemWriteAccess _repositor;
 
-        public ItemEventHandlers(IItemWriteAccess repository)
+        public ItemEventHandlers(IItemWriteAccess repositor)
         {
-            _repository = repository;
+            _repositor = repositor;
         }
 
         public void Handle(ItemCreated msg)
         {
-            if(msg == null) throw new ArgumentNullException("msg");
+            if (msg == null) throw new ArgumentNullException("msg");
 
-            _repository.Update(ItemEvent.NewItemCreated(msg));
+            var @event = ItemEvent.NewItemCreated(msg);
+
+            _repositor.Update(@event);
         }
 
         public void Handle(ItemUpdated msg)
         {
             if (msg == null) throw new ArgumentNullException("msg");
 
-            _repository.Update(ItemEvent.NewItemUpdated(msg));
+            var @event = ItemEvent.NewItemUpdated(msg);
+
+            _repositor.Update(@event);
         }
     }
 }

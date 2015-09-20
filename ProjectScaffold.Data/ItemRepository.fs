@@ -27,17 +27,21 @@ module AccessLayer =
             | _      -> null
 
         let fromItemDto (dto: dbSchema.ServiceTypes.Item): Item =
-            { id = ItemId dto.Id; name = dto.Name; description = if dto.Description <> null then Some dto.Description else None }
+            { id = AggregateId dto.Id; version = AggregateVersion dto.Version; name = dto.Name; description = if dto.Description <> null then Some dto.Description else None }
 
-        let toItemDto (ItemId id, description, name) =
-            dbSchema.ServiceTypes.Item(Id = id, Description = descriptionFrom description, Name = name)
+        let toItemDto (AggregateId id, AggregateVersion version, description, name) =
+            dbSchema.ServiceTypes.Item(Id = id, Version = version, Description = descriptionFrom description, Name = name)
 
-        let tryFindItemDto (ItemId itemId) =
+        let tryFindItemDto (AggregateId itemId) =
             db.Item
             |> Seq.tryFind (fun dto -> dto.Id = itemId) 
 
         let tryFindItem =
             tryFindItemDto >> Option.map fromItemDto
+
+        let versionFrom =
+            function
+            | AggregateVersion v -> v
 
         interface IItemReadAccess with
             
@@ -51,7 +55,7 @@ module AccessLayer =
                 try
                     match tryFindItem itemId with
                     | Some v -> ok v
-                    | _      -> fail ItemNotFound
+                    | _      -> fail AggregateNotFound
                 with
                 | ex -> fail (SqlException ex.Message)
 
@@ -59,11 +63,12 @@ module AccessLayer =
 
             member __.Update(e) =
                 try 
+                    // Todo: wrap inside a transaction
                     match e with
                     | ItemCreated msg -> 
                         match tryFindItem msg.id with
                         | None -> 
-                            toItemDto (msg.id, msg.description, msg.name)
+                            toItemDto (msg.id, msg.expectedVersion, msg.description, msg.name)
                             |> db.Item.InsertOnSubmit
                             |> ignore
                             db.DataContext.SubmitChanges()
@@ -72,11 +77,15 @@ module AccessLayer =
                     | ItemUpdated msg -> 
                         match tryFindItemDto msg.id with
                         | Some dto -> 
-                            dto.Name        <- msg.name
-                            dto.Description <- descriptionFrom msg.description
-                            db.DataContext.SubmitChanges()
-                            ok()
-                        | _ -> fail (ItemNotFound)
+                            match versionFrom msg.expectedVersion with
+                            | v when v = dto.Version + 1 ->
+                                dto.Name        <- msg.name
+                                dto.Description <- descriptionFrom msg.description
+                                dto.Version     <- v
+                                db.DataContext.SubmitChanges()
+                                ok()
+                            | _ -> fail ConcurrencyFailure
+                        | _ -> fail AggregateNotFound
                 with
                 | ex -> 
                     fail (DbUpdateError ex.Message)

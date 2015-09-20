@@ -89,6 +89,10 @@
       <Project>{cbd7ec46-7a0a-47f6-b939-d4688cc72c21}</Project>
       <Name>ProjectScaffold.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectScaffold.EventStore\ProjectScaffold.EventStore.fsproj">
+      <Project>{bb3fb5b7-276a-44e0-bebb-2dd42d54a23a}</Project>
+      <Name>ProjectScaffold.EventStore</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

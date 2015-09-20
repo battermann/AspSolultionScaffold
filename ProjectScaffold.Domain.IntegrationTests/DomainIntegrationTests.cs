@@ -21,18 +21,19 @@ namespace ProjectScaffold.Domain.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            var repository = new AccessLayer.ItemRepository(@"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;");
-            _ra = repository;
-            IItemWriteAccess wa = repository;
-            var commandHandlers = new ItemCommandHandlers();
-            var eventHandlers = new ItemEventHandlers(wa);
-            var bus = new MessageBus();
-            ISubscribable subscribable = bus;
-            _sender = bus;
-            subscribable.RegisterCommandHandler<CreateItem>(commandHandlers.Handle);
-            subscribable.RegisterCommandHandler<UpdateItem>(commandHandlers.Handle);
-            subscribable.RegisterEventHandler<ItemCreated>(eventHandlers.Handle);
-            subscribable.RegisterEventHandler<ItemUpdated>(eventHandlers.Handle);
+            //var repository = new AccessLayer.ItemRepository(@"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;");
+            //var eventStore = new EventStore.ItemStore(@"Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.Database;Integrated Security=SSPI;");
+            //_ra = repository;
+            //IItemWriteAccess wa = repository;
+            //var commandHandlers = new ItemCommandHandlers(_ra);
+            //var eventHandlers = new ItemEventHandlers(eventStore);
+            //var bus = new MessageBus();
+            //ISubscribable subscribable = bus;
+            //_sender = bus;
+            //subscribable.RegisterCommandHandler<CreateItem>(commandHandlers.Handle);
+            //subscribable.RegisterCommandHandler<UpdateItem>(commandHandlers.Handle);
+            //subscribable.RegisterEventHandler<ItemCreated>(eventHandlers.Handle);
+            //subscribable.RegisterEventHandler<ItemUpdated>(eventHandlers.Handle);
         }
 
 
@@ -43,7 +44,7 @@ namespace ProjectScaffold.Domain.IntegrationTests
 
             var cmd = new CreateItem(
                 timestamp: DateTime.Now,
-                id: ItemId.NewItemId(id), 
+                id: AggregateId.NewAggregateId(id), 
                 name: "item 1",
                 description: "This is item 1".Some());
 
@@ -52,7 +53,7 @@ namespace ProjectScaffold.Domain.IntegrationTests
             var result = _ra.GetAll();
 
             result.Match(
-                ifSuccess: (items, _) => Check.That(items).Contains(new Item(ItemId.NewItemId(id), "item 1", "This is item 1".Some())),
+                ifSuccess: (items, _) => Check.That(items).Contains(new Item(AggregateId.NewAggregateId(id), AggregateVersion.NewAggregateVersion(0), "item 1", "This is item 1".Some())),
                 ifFailure: errs => Assert.Fail());
         }
 
@@ -63,7 +64,7 @@ namespace ProjectScaffold.Domain.IntegrationTests
 
             var insertCmd = new CreateItem(
                 timestamp: DateTime.Now,
-                id: ItemId.NewItemId(id),
+                id: AggregateId.NewAggregateId(id),
                 name: "item x",
                 description: "This is item x".Some());
 
@@ -71,16 +72,16 @@ namespace ProjectScaffold.Domain.IntegrationTests
 
             var updateCmd = new UpdateItem(
                 timestamp: DateTime.Now,
-                id: ItemId.NewItemId(id),
+                id: AggregateId.NewAggregateId(id),
                 name: "updated name",
                 description: FSharpOption<string>.None);
 
             _sender.Send(updateCmd);
 
-            var result = _ra.GetById(ItemId.NewItemId(id));
+            var result = _ra.GetById(AggregateId.NewAggregateId(id));
 
             result.Match(
-                ifSuccess: (item, _) => Check.That(item).IsEqualTo(new Item(ItemId.NewItemId(id), "updated name", FSharpOption<string>.None)),
+                ifSuccess: (item, _) => Check.That(item).IsEqualTo(new Item(AggregateId.NewAggregateId(id), AggregateVersion.NewAggregateVersion(1), "updated name", FSharpOption<string>.None)),
                 ifFailure: errs => Assert.Fail());
         }
     }

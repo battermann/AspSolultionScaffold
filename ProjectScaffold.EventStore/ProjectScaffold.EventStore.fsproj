@@ -5,13 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>1b4639c8-53e2-4465-a01c-14b5a939601b</ProjectGuid>
+    <ProjectGuid>bb3fb5b7-276a-44e0-bebb-2dd42d54a23a</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ProjectScaffold.DomainModels</RootNamespace>
-    <AssemblyName>ProjectScaffold.DomainModels</AssemblyName>
+    <RootNamespace>ProjectScaffold.EventStore</RootNamespace>
+    <AssemblyName>ProjectScaffold.EventStore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ProjectScaffold.DomainModels</Name>
+    <Name>ProjectScaffold.EventStore</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\ProjectScaffold.DomainModels.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\ProjectScaffold.EventStore.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\ProjectScaffold.DomainModels.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ProjectScaffold.EventStore.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -49,13 +49,11 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="app.config" />
-    <Compile Include="Models.fs" />
-    <Compile Include="Commands.fs" />
-    <Compile Include="Events.fs" />
-    <Compile Include="Aggregates.fs" />
-    <Compile Include="Contracts.fs" />
+    <Compile Include="Serialization.fs" />
+    <Compile Include="EventStore.fs" />
+    <Content Include="app.config" />
+    <Content Include="packages.config" />
+    <Compile Include="Repositories.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Chessie">
@@ -66,13 +64,25 @@
       <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.Data.TypeProviders, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Numerics" />
     <ProjectReference Include="..\InternalMessageBus\InternalMessageBus.csproj">
       <Name>InternalMessageBus</Name>
       <Project>{d2655e92-51b1-4ea9-a586-e8af69c5095b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectScaffold.DomainModels\ProjectScaffold.DomainModels.fsproj">
+      <Name>ProjectScaffold.DomainModels</Name>
+      <Project>{1b4639c8-53e2-4465-a01c-14b5a939601b}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

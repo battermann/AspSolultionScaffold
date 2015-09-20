@@ -4,40 +4,29 @@ open System
 open InternalMessageBus
 open Chessie.ErrorHandling
 
+exception AggregateNotFoundException
+exception ConcurrencyFailureException
+exception AggregateAlreadyExistsException
+
 // ErrorMessages
 type DomainMessage =
-    | ItemNotFound
+    | AggregateNotFound
     | DbUpdateError of string
     | SqlException of string
     | UnknownError of string
+    | CouldNotLoadAggregate of string
+    | ConcurrencyFailure
+    | AggregateAlreadyExists
 
-// Aggregates
-type ItemId = ItemId of string
-type Item = { id:ItemId; name:string; description:string option }
+type AggregateId = AggregateId of string
+    with
+    static member Empty = AggregateId String.Empty
 
-// Events
-type ItemEvent =
-| ItemCreated of ItemCreated
-| ItemUpdated of ItemUpdated
-and ItemCreated = { timestamp:DateTime; id:ItemId; name:string; description:string option } interface IEvent
-and ItemUpdated = { timestamp:DateTime; id:ItemId; name:string; description:string option } interface IEvent
-
-// Commands
-type ItemCommand =
-| CreateItem of CreateItem
-| UpdateItem of UpdateItem
-and CreateItem = { timestamp:DateTime; id:ItemId; name:string; description:string option } interface ICommand
-and UpdateItem = { timestamp:DateTime; id:ItemId; name:string; description:string option } interface ICommand
-
-// DAL interfaces
-type IItemReadAccess =
-    /// Return all Items
-    abstract GetAll : unit -> Result<Item seq, DomainMessage>
-
-    /// Return the customer with the given ItemId, or ItemNotFound error if not found
-    abstract GetById : ItemId -> Result<Item, DomainMessage>
-
-type IItemWriteAccess =
-    abstract Update : ItemEvent -> Result<unit, DomainMessage>
-
-
+type AggregateVersion = AggregateVersion of int
+    with
+    static member Empty = (AggregateVersion -1)
+    static member versionFrom =
+        function 
+        | AggregateVersion v -> v
+    static member incrVersion version =
+        AggregateVersion ((AggregateVersion.versionFrom version) + 1)

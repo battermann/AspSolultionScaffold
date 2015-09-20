@@ -72,6 +72,10 @@
       <Project>{1b4639c8-53e2-4465-a01c-14b5a939601b}</Project>
       <Name>ProjectScaffold.DomainModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectScaffold.EventStore\ProjectScaffold.EventStore.fsproj">
+      <Project>{bb3fb5b7-276a-44e0-bebb-2dd42d54a23a}</Project>
+      <Name>ProjectScaffold.EventStore</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
