@@ -53,7 +53,7 @@
     <Compile Include="EventStore.fs" />
     <Content Include="app.config" />
     <Content Include="packages.config" />
-    <Compile Include="Repositories.fs" />
+    <Compile Include="InMemoryEventStore.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Chessie">
@@ -75,13 +75,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\InternalMessageBus\InternalMessageBus.csproj">
-      <Name>InternalMessageBus</Name>
-      <Project>{d2655e92-51b1-4ea9-a586-e8af69c5095b}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProjectScaffold.DomainModels\ProjectScaffold.DomainModels.fsproj">
-      <Name>ProjectScaffold.DomainModels</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectScaffold.DomainModels\ProjectScaffold.Models.fsproj">
+      <Name>ProjectScaffold.Models</Name>
       <Project>{1b4639c8-53e2-4465-a01c-14b5a939601b}</Project>
       <Private>True</Private>
     </ProjectReference>

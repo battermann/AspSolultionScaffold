@@ -1,7 +1,0 @@
-﻿CREATE TABLE [dbo].[Item]
-(
-	[Id] NVARCHAR(255) NOT NULL PRIMARY KEY,
-	[Version] int NOT NULL,
-	[Name] NVARCHAR(MAX) NOT NULL,
-	[Description] NVARCHAR(MAX) NULL,
-)

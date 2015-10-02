@@ -59,7 +59,7 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="ItemEvent.sql" />
+    <Build Include="Event.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ProjectScaffold.EventStore.Database.publish.xml" />

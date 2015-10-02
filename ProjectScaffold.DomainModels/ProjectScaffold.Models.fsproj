@@ -11,7 +11,7 @@
     <AssemblyName>ProjectScaffold.DomainModels</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ProjectScaffold.DomainModels</Name>
+    <Name>ProjectScaffold.Models</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,11 +51,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
-    <Compile Include="Models.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
-    <Compile Include="Aggregates.fs" />
-    <Compile Include="Contracts.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Chessie">
@@ -70,11 +68,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\InternalMessageBus\InternalMessageBus.csproj">
-      <Name>InternalMessageBus</Name>
-      <Project>{d2655e92-51b1-4ea9-a586-e8af69c5095b}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
