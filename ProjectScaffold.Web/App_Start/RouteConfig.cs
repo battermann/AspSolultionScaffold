@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace WebProjectScaffold.Web
+namespace ProjectScaffold.Web
 {
     public class RouteConfig
     {
@@ -16,7 +16,7 @@ namespace WebProjectScaffold.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Items", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Issues", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

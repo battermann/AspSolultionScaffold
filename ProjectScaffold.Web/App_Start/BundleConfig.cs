@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace WebProjectScaffold.Web
+namespace ProjectScaffold.Web
 {
     public class BundleConfig
     {
