@@ -14,7 +14,7 @@ module EventStore =
     open Serialization
 
     [<Literal>]
-    let connectionString = "Data Source=(localdb)\V11.0;Initial Catalog=BRAVE.EventStore;Integrated Security=SSPI;"
+    let connectionString = "Data Source=(localdb)\V11.0;Initial Catalog=ProjectScaffold.EventStore;Integrated Security=SSPI;"
     type private dbSchema = SqlDataConnection<connectionString>
 
     let private toEventDto (streamId, version, typeName, eventData) =
@@ -26,7 +26,7 @@ module EventStore =
             db.DataContext.Log <- System.Console.Out
             db
 
-    let private getVersion (db: dbSchema.ServiceTypes.SimpleDataContextTypes.BRAVE_EventStore) streamId =
+    let private getVersion (db: dbSchema.ServiceTypes.SimpleDataContextTypes.ProjectScaffold_EventStore) streamId =
         let ns = 
             db.Event 
             |> Seq.filter (fun dto -> dto.StreamId = streamId)

@@ -2,7 +2,7 @@
 
 open System
 
-type Commands =
+type Command =
     | IssueCommand of IssueCommand
 and IssueCommand =
     | CreateIssue of CreateIssue

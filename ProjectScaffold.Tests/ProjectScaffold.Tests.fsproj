@@ -5,13 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>149eaf88-37f6-4b4d-aaaf-985311366136</ProjectGuid>
+    <ProjectGuid>cf7eca61-b256-4631-b177-c2a5d672a18e</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ProjectScaffold.Domain</RootNamespace>
-    <AssemblyName>ProjectScaffold.Domain</AssemblyName>
+    <RootNamespace>ProjectScaffold.Tests</RootNamespace>
+    <AssemblyName>ProjectScaffold.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ProjectScaffold.Domain</Name>
+    <Name>ProjectScaffold.Tests</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\ProjectScaffold.Domain.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\ProjectScaffold.Tests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\ProjectScaffold.Domain.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ProjectScaffold.Tests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -51,10 +51,8 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="app.config" />
-    <Compile Include="Helpers.fs" />
-    <Compile Include="Issue.fs" />
-    <Compile Include="CommandHandling.fs" />
-    <Compile Include="CSharpCompat.fs" />
+    <Compile Include="Specification.fs" />
+    <Compile Include="IssueTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Chessie">
@@ -65,13 +63,35 @@
       <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FsUnit.CustomMatchers">
+      <HintPath>..\packages\FsUnit.1.3.1.0\lib\FsUnit.CustomMatchers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\packages\FsUnit.1.3.1.0\lib\FsUnit.NUnit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <ProjectReference Include="..\ProjectScaffold.DomainModels\ProjectScaffold.Models.fsproj">
       <Name>ProjectScaffold.Models</Name>
       <Project>{1b4639c8-53e2-4465-a01c-14b5a939601b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectScaffold.Domain\ProjectScaffold.Domain.fsproj">
+      <Name>ProjectScaffold.Domain</Name>
+      <Project>{149eaf88-37f6-4b4d-aaaf-985311366136}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectScaffold.EventStore\ProjectScaffold.EventStore.fsproj">
+      <Name>ProjectScaffold.EventStore</Name>
+      <Project>{bb3fb5b7-276a-44e0-bebb-2dd42d54a23a}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

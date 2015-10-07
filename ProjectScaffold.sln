@@ -13,6 +13,12 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ProjectScaffold.EventStore.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProjectScaffold.Domain", "ProjectScaffold.Domain\ProjectScaffold.Domain.fsproj", "{149EAF88-37F6-4B4D-AAAF-985311366136}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{413C9DAC-2B13-4DEC-AE28-9A1E2142954C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProjectScaffold.Tests", "ProjectScaffold.Tests\ProjectScaffold.Tests.fsproj", "{CF7ECA61-B256-4631-B177-C2A5D672A18E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectScaffold.Web", "ProjectScaffold.Web\ProjectScaffold.Web.csproj", "{BF282F94-052B-4B05-B5CF-F9982C19F2B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,14 @@ Global
 		{149EAF88-37F6-4B4D-AAAF-985311366136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{149EAF88-37F6-4B4D-AAAF-985311366136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{149EAF88-37F6-4B4D-AAAF-985311366136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF7ECA61-B256-4631-B177-C2A5D672A18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7ECA61-B256-4631-B177-C2A5D672A18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7ECA61-B256-4631-B177-C2A5D672A18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7ECA61-B256-4631-B177-C2A5D672A18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF282F94-052B-4B05-B5CF-F9982C19F2B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF282F94-052B-4B05-B5CF-F9982C19F2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF282F94-052B-4B05-B5CF-F9982C19F2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF282F94-052B-4B05-B5CF-F9982C19F2B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +58,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BB3FB5B7-276A-44E0-BEBB-2DD42D54A23A} = {C6FF3AF1-16E4-4B79-8FCD-FCFF72B3ED7B}
 		{F4B44599-4296-4E61-8EDB-2A6AF65FB621} = {C6FF3AF1-16E4-4B79-8FCD-FCFF72B3ED7B}
+		{CF7ECA61-B256-4631-B177-C2A5D672A18E} = {413C9DAC-2B13-4DEC-AE28-9A1E2142954C}
 	EndGlobalSection
 EndGlobal
